@@ -7,7 +7,7 @@ class FormScreen extends StatefulWidget {
   final BuildContext taskContext;
 
   @override
-  _FormScreenState createState() => _FormScreenState();
+  State<FormScreen> createState() => _FormScreenState();
 }
 
 class _FormScreenState extends State<FormScreen> {
@@ -50,7 +50,7 @@ class _FormScreenState extends State<FormScreen> {
                       },
                       controller: nameController,
                       textAlign: TextAlign.center,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Nome',
                         fillColor: Colors.white70,
@@ -72,7 +72,7 @@ class _FormScreenState extends State<FormScreen> {
                       keyboardType: TextInputType.number,
                       controller: difficultyController,
                       textAlign: TextAlign.center,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Dificuldade',
                         fillColor: Colors.white70,
@@ -95,7 +95,7 @@ class _FormScreenState extends State<FormScreen> {
                       keyboardType: TextInputType.url,
                       controller: imageController,
                       textAlign: TextAlign.center,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Imagem',
                         fillColor: Colors.white70,
@@ -129,9 +129,6 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // print(nameController.text);
-                        // print(int.parse(difficultyController.text));
-                        // print(imageController.text);
                         TaskInherited.of(widget.taskContext).newTask(
                             nameController.text,
                             imageController.text,
@@ -143,8 +140,9 @@ class _FormScreenState extends State<FormScreen> {
                         );
                         Navigator.pop(context);
                       }
+                      print(TaskInherited.of(widget.taskContext).taskList);
                     },
-                    child: Text('Adicionar!'),
+                    child: const Text('Adicionar!'),
                   )
                 ],
               ),
