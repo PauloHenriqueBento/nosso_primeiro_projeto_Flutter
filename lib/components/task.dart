@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'difficulty.dart';
@@ -7,16 +6,39 @@ class Task extends StatefulWidget {
   final String nome;
   final String foto;
   final int dificuldade;
+  List<Color> maestriaColor = <Color>[
+    Colors.blue,
+    Colors.green,
+    Colors.red,
+    Colors.purple,
+    Colors.teal
+  ];
 
-  const Task(this.nome, this.foto, this.dificuldade, {Key? key})
-      : super(key: key);
+  Task(this.nome, this.foto, this.dificuldade, {Key? key}) : super(key: key);
+  int maestria = 0;
+  int nivel = 0;
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
+  void upMaestria() {
+    if (widget.dificuldade > 0) {
+      if ((widget.nivel / widget.dificuldade) / 10 > widget.maestria + 1) {
+        widget.maestria++;
+        widget.nivel = 0;
+      }
+    }
+  }
+
+  bool assetOrNetwork() {
+    if (widget.foto.contains('http')) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +48,8 @@ class _TaskState extends State<Task> {
         children: [
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4), color: Colors.blue),
+                borderRadius: BorderRadius.circular(4),
+                color: widget.maestriaColor[widget.maestria]),
             height: 140,
           ),
           Column(
@@ -46,9 +69,14 @@ class _TaskState extends State<Task> {
                       width: 72,
                       height: 100,
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child:
-                          Image.asset(widget.foto, fit: BoxFit.cover)),
+                        borderRadius: BorderRadius.circular(4),
+                        child: assetOrNetwork()
+                            ? Image.asset(
+                                widget.foto,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(widget.foto, fit: BoxFit.cover),
+                      ),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +91,9 @@ class _TaskState extends State<Task> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )),
-                        Difficulty(dificultyLevel: widget.dificuldade,),
+                        Difficulty(
+                          dificultyLevel: widget.dificuldade,
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -72,8 +102,9 @@ class _TaskState extends State<Task> {
                       child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              nivel++;
+                              widget.nivel++;
                             });
+                            upMaestria();
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,14 +131,14 @@ class _TaskState extends State<Task> {
                         child: LinearProgressIndicator(
                           color: Colors.white,
                           value: (widget.dificuldade > 0)
-                              ? (nivel / widget.dificuldade) / 10
+                              ? (widget.nivel / widget.dificuldade) / 10
                               : 1,
                         )),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Nivel: $nivel',
+                      'Nivel: ${widget.nivel}',
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),

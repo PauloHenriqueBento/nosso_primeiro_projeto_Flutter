@@ -8,10 +8,11 @@ class TaskInherited extends InheritedWidget {
   }) : super(key: key, child: child);
 
   final List<Task> taskList = [
-    // const Task('Aprender Flutter', 'assets/images/flutter.png', 3),
-    // const Task('Aprender ReactJS', 'assets/images/react.png', 2),
-    // const Task('Aprender Angular', 'assets/images/angular.png', 5),
-    // const Task('Aprender VueJs', 'assets/images/vue.png', 1),
+    Task('Aprender Flutter', 'assets/images/flutter.png', 3),
+    Task('Aprender ReactJS', 'assets/images/react.png', 2),
+    Task('Aprender Angular', 'assets/images/angular.png', 5),
+    Task('Aprender VueJs', 'assets/images/vue.png', 1),
+    Task('Aprender ReactJS', 'assets/images/react.png', 2),
   ];
 
   void newTask(String name, String photo, int difficulty) {
